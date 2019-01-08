@@ -1,0 +1,75 @@
+<form #f="ngForm" (ngSubmit)="saveProduct(f.value)" class="product__form">
+ <section class="product__form-left">
+    <mat-form-field>
+      <input 
+        #title="ngModel" 
+        [(ngModel)]="product.title" name="title" 
+        id="title" matInput 
+        type="text" placeholder="Product Title"
+        required >
+      <mat-error *ngIf="title.touched && title.invalid">
+        Title is required.
+      </mat-error>
+
+    </mat-form-field>
+    
+      <mat-form-field>
+        <input 
+          #price="ngModel"
+          [(ngModel)]="product.price" name="price" 
+          id="price" matInput 
+          type="number" min="0" [min]="0"
+          required placeholder="Product Price">
+        <span matPrefix>$&nbsp;</span>
+        <mat-error *ngIf="price.hasError('required')">Price is required.</mat-error>
+        <mat-error *ngIf="price.errors?.min">Price shoul be 0 or higher</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <select 
+          #category="ngModel" [(ngModel)]="product.category" 
+          name="category" matNativeControl 
+          placeholder="Product Category" required>
+          <option value="" selected></option>
+          <option *ngFor="let c of categories$ | async" [value]="c.key">{{c.name}}</option>
+        </select>
+        <mat-error *ngIf="category.touched && category.invalid">
+            Category is required.
+        </mat-error>
+      </mat-form-field>
+        
+      <mat-form-field>
+          <input 
+            #imageUrl="ngModel" [(ngModel)]="product.imageUrl" 
+            name="imageUrl" id="imageUrl" 
+            matInput type="text" 
+            placeholder="Product Image URL" required url>
+            <!-- <mat-error *ngIf="imageUrl.touched && imageUrl.invalid">
+                Image <strong>URL</strong> is required.
+            </mat-error> -->
+            <mat-error *ngIf="imageUrl.errors?.required">
+                Image <strong>URL</strong> is required.
+            </mat-error>
+            <mat-error *ngIf="imageUrl.errors?.url">
+                Please enter a valid <strong>URL</strong>
+            </mat-error>
+      </mat-form-field>
+      
+      <div class="product__form-actions">
+        <button mat-raised-button color="primary">Save</button>
+        <button mat-raised-button color="warn" type="button" (click)="deleteProduct()">Delete</button>
+      </div>
+  </section>
+
+  <section class="product__form-right">
+      <mat-card *ngIf="product.title" class="product__form-card">
+        <mat-card-title>{{title.value}}</mat-card-title>
+
+          <img *ngIf="product.imageUrl" mat-card-image [src]="product.imageUrl" alt="{{ product.title }}">
+
+        <mat-card-content>
+            <mat-card-title>{{ price.value | currency:'USD' }}</mat-card-title>
+        </mat-card-content>
+      </mat-card>
+  </section>
+</form>

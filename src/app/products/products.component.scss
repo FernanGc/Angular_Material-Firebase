@@ -1,0 +1,28 @@
+.example-card {
+    max-width: 300px;
+    margin-bottom: 2.5rem;
+}
+
+.products__container {
+    display: flex;
+
+    &-menu {
+        // background-color: blueviolet;
+        padding: 2rem;
+        width: 20%;
+    }
+    
+    &-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 2rem;
+        width: 80%;
+    }
+}
+
+.imaTes {
+    max-width: 300px;
+    max-height: 250px;
+}

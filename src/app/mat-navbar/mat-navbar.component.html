@@ -1,0 +1,30 @@
+<nav>
+    <mat-toolbar class="navbar">
+
+      <a class="navbar-brand" routerLink="/">OShop</a>
+
+      <a class="navbar-link" routerLink="/shopping-cart">Shopping Cart</a>
+
+      <ng-template #anonymousUser>
+          <a routerLink="/login" class="navbar-link">Login</a>
+      </ng-template>
+
+      <!-- <button mat-button [matMenuTriggerFor]="menu" class="navbar-link">Login</button> -->
+      <div *ngIf="appUser; else anonymousUser">
+        <a  [matMenuTriggerFor]="menu" class="navbar-link navbar-nom">
+          {{appUser.name}}
+          <mat-icon matSuffix>arrow_drop_down</mat-icon>
+        </a>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/my/orders">My Orders</button>
+          <ng-container *ngIf="appUser.isAdmin">
+            <button mat-menu-item routerLink="/admin/orders">Manage Orders</button>
+            <button mat-menu-item routerLink="/admin/products">Manage Products</button>
+          </ng-container>
+            
+          <button mat-menu-item (click)="logOut()">Log Out</button>
+        </mat-menu>
+      </div>
+    </mat-toolbar>
+</nav>
+
